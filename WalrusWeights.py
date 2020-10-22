@@ -1,24 +1,29 @@
 n = int(input())
 X = []
-sum = 0
 for i in range (0,n,1):
-  a = int(input())
-  X.append(a)
+    a = int(input())
+    X.append(a)
 X.sort()
+weight = [False]*2000
 temp = 0
-minDiff = 10000
 for i in range (0,n,1):
-  temp = X[i]
-  for j in range(i+1,n,1):
-    temp = temp + X[j]
-    if temp > 1000 and X[i] > 1000:
-      minDiff = -min(minDiff, 1000 - temp,1000 - X[i])
-    elif temp > 1000 and X[i] < 1000:
-      minDiff = -min(minDiff, 1000 - temp,1000 - X[i])
-    elif temp < 1000 and X[i] > 1000:
-      minDiff = -min(minDiff, 1000 - temp,abs(1000 - X[i]))
-    else:
-      minDiff = min(minDiff, 1000 -temp, 1000 -X[i])
+    temp = X[i]
+    weight[X[i]] = True
+    for j in range(i+1,n,1):
+        temp = temp + X[j]
+        if temp < 2000:
+            weight[temp] = True
+
+maxWeight = 0
+for i in range(0,1000):
+    if weight[1000 + i] == True:
+        maxWeight = 1000 + i
+        break;
+    elif weight[1000 - i] == True:
+        maxWeight = 1000 -i
+        break;
+
 if(n == 1):
-    minDiff = X[0] - 1000
-print(1000 - minDiff)
+    maxWeight = X[0]
+    
+print(maxWeight)
